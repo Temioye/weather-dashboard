@@ -29,3 +29,53 @@ function displayWeatherData(response) {
   today.append(todayCard);
   displayForecast(response.id);
 }
+$("#search-button").on("click", function (event) {
+  event.preventDefault();
+  city = $("#search-input").val().trim();
+  if (!city) {
+    return;
+  }
+  if (searchHistory.includes(city)) {
+    return;
+  }
+  var queryURL =
+    "https://api.openweathermap.org/data/2.5/weather?q=" +
+    city +
+    "&appid=" +
+    APIKey;
+  $.ajax({
+    url: queryURL,
+    method: "GET",
+  }).then(displayWeatherData);
+
+  searchHistory.push(city);
+  localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+  $("#search-input").val("");
+  renderButtons();
+});
+
+function renderButtons() {
+  $(".list-group").empty();
+  for (var i = 0; i < searchHistory.length; i++) {
+    var a = $("<button>");
+    a.addClass("city btn-secondary");
+    a.attr("data-name", searchHistory[i]);
+    a.text(searchHistory[i]);
+    $(".list-group").append(a);
+  }
+}
+
+$(document).on("click", ".city", function () {
+  var city = $(this).attr("data-name");
+  var queryURL =
+    "https://api.openweathermap.org/data/2.5/weather?q=" +
+    city +
+    "&appid=" +
+    APIKey;
+  $.ajax({
+    url: queryURL,
+    method: "GET",
+  }).then(displayWeatherData);
+});
+
+renderButtons();
