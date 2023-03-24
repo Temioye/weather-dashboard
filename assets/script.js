@@ -92,3 +92,35 @@ function displayForecast(cityID) {
   }).then(function (response) {
     console.log(response);
     forecast.empty();
+    //function to move to next day forecast
+    today.append("<br>" + "<h4>" + "5-Day Forecast:" + "</h4>");
+    for (var i = 1; i < response.list.length; i += 8) {
+      var forecastDate = moment(response.list[i].dt_txt)
+        .add(1, "days")
+        .format("MM/DD/YYYY");
+      var forecastTemp =
+        (response.list[i].main.temp - 273.15).toFixed(2) + "°C";
+      var forecastHumidity = response.list[i].main.humidity + "%";
+      var forecastWind = response.list[i].wind.speed + " KPH";
+      var forecastCard = $("<div>").addClass(
+        "card col-md-2 ml-4 text-white forecast-info"
+      );
+      var forecastCardBody = $("<div>").addClass("card-body p-2");
+      var weatherIconUrl =
+        "http://openweathermap.org/img/w/" +
+        response.list[i].weather[0].icon +
+        ".png";
+      var iconContainer = $("<div id='weather-icon'>").html(
+        "<img src='" + weatherIconUrl + "' alt='Weather Icon'>"
+      );
+      var forecastDateDisplay = $("<h5>").text(forecastDate);
+      forecastCardBody.append(forecastDateDisplay);
+      forecastCardBody.append(iconContainer);
+      forecastCardBody.append("<p>" + "Temp: " + forecastTemp + "</p>");
+      forecastCardBody.append("<p>" + "wind: " + forecastWind + "</p>");
+      forecastCardBody.append("<p>" + "Humidity: " + forecastHumidity + "</p>");
+      forecastCard.append(forecastCardBody);
+      forecast.append(forecastCard);
+    }
+  });
+}
