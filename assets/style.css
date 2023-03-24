@@ -1,0 +1,17 @@
+header h1 {
+    text-align: center;
+    color: #ffffff;
+    font-weight: bold;
+    background: rgb(59, 110, 196);
+    background: linear-gradient(90deg, rgba(59, 110, 196, 1), rgba(34, 3, 84, 1) 100%);
+}
+
+.forecast-info {
+    background-color: #2d3e50;
+}
+
+
+#search-button {
+    font-size: 1.25em;
+    background-color: rgba(59, 110, 196, 1);
+}
