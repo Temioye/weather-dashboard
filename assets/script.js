@@ -79,3 +79,16 @@ $(document).on("click", ".city", function () {
 });
 
 renderButtons();
+// Five day weather function
+function displayForecast(cityID) {
+  var forecastURL =
+    "https://api.openweathermap.org/data/2.5/forecast?id=" +
+    cityID +
+    "&appid=" +
+    APIKey;
+  $.ajax({
+    url: forecastURL,
+    method: "GET",
+  }).then(function (response) {
+    console.log(response);
+    forecast.empty();
